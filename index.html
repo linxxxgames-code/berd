@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Именинники месяца</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6ff;--card:#fff;--ink:#2b1b4a;--mut:#7a6a99;--a:#6c3ce9;--b:#ff5fa2;--c:#ff8a3d;--ok:#2ec4b6;--sh:0 6px 18px rgba(108,60,233,.14);--g:linear-gradient(135deg,#6c3ce9,#ff5fa2 60%,#ff8a3d)}
+[data-theme=dark]{--bg:#150f27;--card:#231a3d;--ink:#f4ecff;--mut:#a597c7;--sh:0 6px 18px rgba(0,0,0,.4)}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.4 Nunito,system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;border:0}
+#side{position:fixed;inset:0 auto 0 0;width:232px;background:var(--card);box-shadow:var(--sh);padding:20px 12px;display:none;flex-direction:column;gap:4px;z-index:5}
+#side h2{font-size:20px;padding:4px 12px 14px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nv{display:flex;gap:10px;align-items:center;padding:11px 14px;border-radius:14px;background:none;text-align:left;font-weight:700;color:var(--mut)}
+.nv.on{background:var(--g);color:#fff}
+#bar{position:fixed;inset:auto 0 0 0;background:var(--card);box-shadow:0 -4px 16px rgba(0,0,0,.12);display:flex;z-index:5;padding-bottom:env(safe-area-inset-bottom)}
+#bar .nv{flex:1;flex-direction:column;gap:0;padding:8px 2px;font-size:10px;border-radius:0;align-items:center;justify-content:center}
+#bar .nv i{font-size:20px;font-style:normal}
+#bar .nv.on{background:none;color:var(--a)}
+main{padding:0 10px 90px}
+header{position:relative;margin:10px 0 16px;padding:22px 16px;border-radius:24px;background:var(--g);color:#fff;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header h1{font-size:clamp(24px,7vw,44px);font-weight:900;line-height:1.05}
+header small{opacity:.9}
+.hb{display:flex;gap:6px;position:relative;z-index:2}
+.hb button{background:rgba(255,255,255,.25);color:#fff;border-radius:12px;padding:8px 10px;font-weight:700}
+.fl{position:absolute;font-size:26px;animation:fl 7s ease-in-out infinite;opacity:.8;pointer-events:none}
+@keyframes fl{50%{transform:translateY(14px) rotate(20deg)}}
+h2.t{font-size:22px;margin:22px 0 10px;font-weight:900}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.card{background:var(--card);border-radius:14px;box-shadow:var(--sh);padding:5px 5px 7px;text-align:center;cursor:pointer;min-width:0;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:50%;display:block;background:#ddd}
+.card b{display:block;font-size:clamp(10px,3.1vw,13px);margin-top:5px;word-break:break-word;line-height:1.15}
+.card .po{display:none}.card .pi{font-size:clamp(9px,2.6vw,12px);color:var(--mut)}
+.card small{display:block;font-size:clamp(8px,2.4vw,11px);color:var(--mut)}
+.box{background:var(--card);border-radius:20px;box-shadow:var(--sh);padding:16px;margin-bottom:12px}
+.big{font-size:clamp(28px,8vw,48px);font-weight:900;letter-spacing:1px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.btn{background:var(--g);color:#fff;border-radius:14px;padding:13px 20px;font-weight:900;min-height:48px;box-shadow:var(--sh)}
+.btn.s{background:var(--card);color:var(--ink);border:2px solid var(--a)}
+.btn.d{background:#e5384f}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+label{display:block;font-weight:700;margin:10px 0 4px;font-size:14px}
+input,select{width:100%;padding:12px;border-radius:12px;border:2px solid #cdbff0;background:var(--card);min-height:48px}
+.err{color:#e5384f;font-size:13px;min-height:16px}
+#cv{width:100%;max-width:280px;border-radius:16px;touch-action:none;display:block;margin:8px 0;background:#ddd}
+.cake{font-size:54px;text-align:center;line-height:1}
+.cd{display:inline-block;font-size:60px;cursor:pointer;transition:.3s}.cd.off{filter:grayscale(1);opacity:.35;transform:translateY(8px)}
+#mod{position:fixed;inset:0;background:rgba(20,10,40,.6);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+#mod>div{background:var(--card);border-radius:24px;padding:20px;max-width:340px;width:100%;text-align:center;max-height:90vh;overflow:auto}
+#mod img{width:60%;border-radius:50%;aspect-ratio:1;object-fit:cover}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.cal div{border-radius:10px;padding:8px 0;font-size:13px;background:var(--card)}
+.cal .h{background:none;color:var(--mut);font-weight:700}
+.cal .bd{background:var(--g);color:#fff;font-weight:900}
+.cal .td{outline:2px solid var(--a)}
+.bar2{display:flex;gap:6px;margin-bottom:10px}
+canvas.cf{position:fixed;inset:0;pointer-events:none;z-index:30}
+@media(min-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.card{padding:10px}.card b{font-size:15px}.card .po{display:inline}.card .pi{display:none}.card small{font-size:12px}}
+@media(min-width:900px){#side{display:flex}#bar{display:none}main{margin-left:232px;padding:0 28px 40px}.grid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}.hb .lg{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<nav id="side"></nav><main><header id="hd"></header><div id="app"></div></main><nav id="bar"></nav><div id="mod"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+// ====== 1. ВСТАВЬ СВОИ ДАННЫЕ ИЗ SUPABASE (Project Settings → API) ======
+const SUPABASE_URL='https://ptonpufmpxubruwpsbim.supabase.co', SUPABASE_KEY='sb_publishable_EFtRE40vXsoYuz-9zrpCXA_EgvoNBWy';
+// =======================================================================
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY),$=s=>document.querySelector(s);
+const MN=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const MG=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const SEAS=[['❄️','⛄','✨'],['❄️','⛄','✨'],['🌷','🌱','🦋'],['🌷','🌱','🦋'],['🌸','🌿','🐝'],['☀️','🌻','🍉'],['☀️','🌻','🍉'],['☀️','🌻','🍉'],['🍂','🍁','🎃'],['🍂','🍁','🎃'],['🍂','🍁','🍄'],['❄️','🎄','⛄']];
+const WISH=['Пусть торт будет большим, а свечей — не считать! 🎂','Желаем счастья, здоровья и мешок конфет! 🍬','Взрослеть не обязательно, а праздновать — обязательно! 🎈','Пусть каждый день будет как день рождения! 🎉','Чтобы мечты сбывались быстрее, чем тает мороженое! 🍦','Возраст — это просто цифра. А вот торт — это серьёзно! 🍰'];
+const FS=['Козерог','Водолей','Рыбы','Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец'],CUT=[19,18,20,19,20,20,22,22,22,22,21,21];
+let me=null,admin=false,people=[],route='home',calM=new Date().getMonth(),calY=new Date().getFullYear(),tm=null,img=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const P=b=>b.split('-').map(Number);
+const fmt=b=>{const[y,m,d]=P(b);return`${d} ${MG[m-1]} ${y}`};
+const today=()=>{const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate())};
+const age=b=>{const[y,m,d]=P(b),t=today();let a=t.getFullYear()-y;if(t<new Date(t.getFullYear(),m-1,d))a--;return a};
+const nextBd=b=>{const[,m,d]=P(b),t=today();let n=new Date(t.getFullYear(),m-1,d);if(n<t)n=new Date(t.getFullYear()+1,m-1,d);return n};
+const days=b=>Math.round((nextBd(b)-today())/864e5);
+const zod=b=>{const[,m,d]=P(b);return d<=CUT[m-1]?FS[m-1]:FS[m%12]};
+const word=(n,a)=>{const k=n%100>10&&n%100<20?2:[2,0,1,1,1,2][Math.min(n%10,5)];return a[k]};
+const NAV=[['home','🏠','Главная'],['month','🎂','Именинники месяца'],['all','👥','Все участники'],['add','➕','Добавить мою карточку'],['profile','👤','Мой профиль'],['cal','📅','Календарь дней рождения']];
+const SHORT={home:'Главная',month:'Месяц',all:'Все',add:'Добавить',profile:'Профиль',cal:'Календарь'};
+const go=r=>{route=r;history.replaceState(0,'','#'+r);render()};
+function chrome(){
+ const n=new Date(),s=SEAS[n.getMonth()];
+ $('#hd').innerHTML=`<div><h1>${MN[n.getMonth()]} ${n.getFullYear()}</h1><small>Именинники месяца</small></div><div class="hb"><button onclick="theme()" title="Тема">🌓</button><button class="lg" onclick="me?out():go('auth')">${me?'Выйти':'Войти'}</button></div>`+[0,1,2,3,4,5].map(i=>`<span class="fl" style="left:${12+i*16}%;top:${i%2?58:6}%;animation-delay:${i*.8}s">${s[i%3]}</span>`).join('');
+ const lg=`<button class="nv ${route=='auth'?'on':''}" onclick="${me?'out()':'go(\'auth\')'}">${me?'🚪 Выйти':'🔑 Войти'}</button>`;
+ $('#side').innerHTML='<h2>🎉 Именинники</h2>'+NAV.map(x=>`<button class="nv ${route==x[0]?'on':''}" onclick="go('${x[0]}')">${x[1]} ${x[2]}</button>`).join('')+lg;
+ $('#bar').innerHTML=NAV.map(x=>`<button class="nv ${route==x[0]?'on':''}" onclick="go('${x[0]}')"><i>${x[1]}</i>${SHORT[x[0]]}</button>`).join('');
+}
+function theme(){const d=document.documentElement.dataset.theme=='dark'?'light':'dark';document.documentElement.dataset.theme=d;try{localStorage.t=d}catch(e){}}
+try{document.documentElement.dataset.theme=localStorage.t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}
+const card=p=>`<div class="card" onclick="info('${p.id}')"><img loading="lazy" src="${p.photo}" alt=""><b>${esc(p.surname)} ${esc(p.name)}<span class="po"> ${esc(p.patronymic||'')}</span></b>${p.patronymic?`<span class="pi">${esc(p.patronymic[0])}.</span>`:''}<small>${fmt(p.birthdate)}</small></div>`;
+function info(id){
+ const p=people.find(x=>x.id==id),d=days(p.birthdate),own=me&&me.id==p.id;
+ $('#mod').style.display='flex';
+ $('#mod').innerHTML=`<div><img src="${p.photo}" alt=""><h3 style="margin:10px 0 2px">${esc(p.surname)} ${esc(p.name)} ${esc(p.patronymic||'')}</h3><p>${fmt(p.birthdate)}</p><p style="margin-top:8px">Возраст: <b>${age(p.birthdate)}</b> · Знак: <b>${zod(p.birthdate)}</b></p><p>${d?`До дня рождения: <b>${d} ${word(d,['день','дня','дней'])}</b>`:'🎉 <b>Сегодня день рождения!</b>'}</p><div class="row" style="justify-content:center">${own?`<button class="btn s" onclick="closeM();go('add')">Изменить</button>`:''}${own||admin?`<button class="btn d" onclick="del('${p.id}')">Удалить</button>`:''}<button class="btn" onclick="closeM()">Закрыть</button></div></div>`;
+}
+const closeM=()=>$('#mod').style.display='none';
+$('#mod').onclick=e=>{if(e.target.id=='mod')closeM()};
+async function del(id){if(!confirm('Удалить карточку?'))return;const{error}=await sb.from('profiles').delete().eq('id',id);if(error)return alert('Не удалось удалить: '+error.message);closeM();await load();render()}
+async function load(){
+ const{data,error}=await sb.from('profiles').select('*').order('surname');people=data||[];
+ if(error)console.error(error);
+ admin=false;if(me){const r=await sb.from('admins').select('user_id').eq('user_id',me.id).maybeSingle();admin=!!r.data}
+}
+function confetti(){
+ const c=document.createElement('canvas');c.className='cf';c.width=innerWidth;c.height=innerHeight;document.body.append(c);const x=c.getContext('2d'),cols=['#6c3ce9','#ff5fa2','#ff8a3d','#2ec4b6','#ffd23f'];
+ const a=Array.from({length:160},()=>({x:innerWidth/2,y:innerHeight*.6,vx:(Math.random()-.5)*16,vy:-Math.random()*18-4,s:Math.random()*8+4,c:cols[Math.random()*5|0],r:Math.random()*6}));
+ let f=0;(function t(){x.clearRect(0,0,c.width,c.height);a.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.45;p.r+=.2;x.fillStyle=p.c;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.fillRect(0,0,p.s,p.s*.6);x.restore()});if(++f<150)requestAnimationFrame(t);else c.remove()})();
+}
+function render(){
+ clearInterval(tm);chrome();const A=$('#app');
+ if(route=='auth')return authV(A);
+ if(route=='home')return homeV(A);
+ if(route=='month'){const m=new Date().getMonth(),l=people.filter(p=>P(p.birthdate)[1]-1==m).sort((a,b)=>P(a.birthdate)[2]-P(b.birthdate)[2]);
+  A.innerHTML=`<h2 class="t">Именинники — ${MN[m]}</h2>`+(l.length?`<div class="grid">${l.map(card).join('')}</div>`:empty());return}
+ if(route=='all')return allV(A);
+ if(route=='add')return formV(A);
+ if(route=='profile')return profV(A);
+ if(route=='cal')return calV(A);
+}
+const empty=()=>`<div class="box" style="text-align:center"><div class="cake">🙈</div><h3>В этом месяце все взрослеют втихаря 😄</h3><p style="color:var(--mut)">Зато можно добавить свою карточку заранее!</p></div>`;
+function homeV(A){
+ const s=people.filter(p=>days(p.birthdate)<=30).sort((a,b)=>days(a.birthdate)-days(b.birthdate)),n=people.length?people.slice().sort((a,b)=>days(a.birthdate)-days(b.birthdate))[0]:null;
+ A.innerHTML=`<div class="box" style="text-align:center">${n?`<p>До ближайшего дня рождения (${esc(n.name)} ${esc(n.surname)}):</p><div class="big" id="cd"></div>`:'<p>Пока нет ни одной карточки. Добавь свою первой!</p>'}<div class="row" style="justify-content:center"><button class="btn" onclick="confetti();document.getElementById('ws').textContent=WISH[Math.random()*WISH.length|0]">🎉 Поздравить</button></div><p id="ws" style="margin-top:12px;font-weight:700">${WISH[Math.random()*WISH.length|0]}</p></div>
+ <h2 class="t">Скоро день рождения</h2>${s.length?`<div class="grid">${s.map(card).join('')}</div>`:'<div class="box">В ближайшие 30 дней именинников нет 😄</div>'}
+ <h2 class="t">Задуй свечи</h2><div class="box" style="text-align:center"><div id="cdl">${[0,1,2,3,4].map(i=>`<span class="cd" onclick="blow(this)">🕯️</span>`).join('')}</div><div class="cake">🎂</div><p id="bm" style="margin-top:8px">Нажимай на свечи, чтобы задуть их!</p></div>`;
+ if(n){const t=()=>{let ms=nextBd(n.birthdate)-new Date();if(ms<0)ms=0;const d=ms/864e5|0,h=ms/36e5%24|0,m=ms/6e4%60|0,sec=ms/1e3%60|0;$('#cd').textContent=`${d}д ${h}ч ${m}м ${sec}с`};t();tm=setInterval(t,1000)}
+}
+function blow(e){e.classList.add('off');if(!document.querySelector('.cd:not(.off)')){confetti();$('#bm').textContent='Все свечи погасли — загадывай желание! ✨ (обнови страницу, чтобы зажечь снова)'}}
+function allV(A){
+ A.innerHTML=`<h2 class="t">Все участники</h2><div class="bar2"><input id="q" placeholder="🔍 Поиск по имени"><select id="fm" style="max-width:150px"><option value="">Все месяцы</option>${MN.map((m,i)=>`<option value="${i}">${m}</option>`).join('')}</select></div><div class="grid" id="gl"></div>`;
+ const f=()=>{const q=$('#q').value.toLowerCase().trim(),m=$('#fm').value;const l=people.filter(p=>(!m||P(p.birthdate)[1]-1==m)&&(`${p.surname} ${p.name} ${p.patronymic||''}`).toLowerCase().includes(q));$('#gl').innerHTML=l.length?l.map(card).join(''):'<p style="grid-column:1/-1">Никого не найдено</p>'};
+ $('#q').oninput=$('#fm').onchange=f;f();
+}
+function authV(A){
+ A.innerHTML=`<div class="box" style="max-width:420px;margin:auto"><h2 class="t" style="margin-top:0">Вход / Регистрация</h2><label>Почта</label><input id="em" type="email" autocomplete="email"><label>Пароль (минимум 6 символов)</label><input id="pw" type="password" autocomplete="current-password"><p class="err" id="er"></p><div class="row"><button class="btn" onclick="auth(0)">Войти</button><button class="btn s" onclick="auth(1)">Зарегистрироваться</button></div><div class="row"><button class="btn s" onclick="sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.href.split('#')[0]}})" style="width:100%">Войти через Google</button></div></div>`;
+}
+async function auth(reg){
+ const email=$('#em').value.trim(),password=$('#pw').value,er=$('#er');er.textContent='';
+ if(!/^\S+@\S+\.\S+$/.test(email))return er.textContent='Введи корректную почту';
+ if(password.length<6)return er.textContent='Пароль должен быть не короче 6 символов';
+ const r=reg?await sb.auth.signUp({email,password}):await sb.auth.signInWithPassword({email,password});
+ if(r.error)return er.textContent=r.error.message.includes('Invalid login')?'Неверная почта или пароль':r.error.message.includes('registered')?'Эта почта уже зарегистрирована':'Ошибка: '+r.error.message;
+ if(reg&&!r.data.session)return er.textContent='Проверь почту: мы отправили письмо для подтверждения.';
+ go('home');
+}
+async function out(){await sb.auth.signOut();go('home')}
+const needLogin=A=>{A.innerHTML=`<div class="box" style="text-align:center"><p>Сначала нужно войти.</p><div class="row" style="justify-content:center"><button class="btn" onclick="go('auth')">Войти</button></div></div>`};
+function formV(A){
+ if(!me)return needLogin(A);
+ const p=people.find(x=>x.id==me.id)||{};img=null;let z=1,ox=0,oy=0,drag=null;
+ const today0=new Date().toISOString().slice(0,10);
+ A.innerHTML=`<div class="box" style="max-width:460px"><h2 class="t" style="margin-top:0">${p.id?'Моя карточка':'Добавить мою карточку'}</h2>
+ <label>Фото</label><input type="file" id="fi" accept="image/*"><canvas id="cv" width="320" height="320"></canvas><input type="range" id="zm" min="1" max="3" step="0.05" value="1"><small style="color:var(--mut)">Тяни фото пальцем, чтобы выбрать кадр</small><p class="err" id="e0"></p>
+ <label>Фамилия *</label><input id="sn" value="${esc(p.surname)}"><p class="err" id="e1"></p>
+ <label>Имя *</label><input id="nm" value="${esc(p.name)}"><p class="err" id="e2"></p>
+ <label>Отчество</label><input id="pt" value="${esc(p.patronymic)}"><p class="err" id="e3"></p>
+ <label>Дата рождения *</label><input id="bd" type="date" min="1900-01-01" max="${today0}" value="${p.birthdate||''}"><p class="err" id="e4"></p>
+ <div class="row"><button class="btn" id="sv">Сохранить</button></div></div>`;
+ const cv=$('#cv'),x=cv.getContext('2d');
+ const draw=()=>{x.fillStyle='#ddd';x.fillRect(0,0,320,320);if(!img)return;const s=Math.max(320/img.width,320/img.height)*z;x.drawImage(img,160-img.width*s/2+ox,160-img.height*s/2+oy,img.width*s,img.height*s)};
+ if(p.photo){const i=new Image();i.onload=()=>{img=i;draw()};i.src=p.photo}else draw();
+ $('#fi').onchange=e=>{const f=e.target.files[0];if(!f)return;const i=new Image();i.onload=()=>{img=i;z=1;ox=oy=0;$('#zm').value=1;$('#e0').textContent='';draw()};i.onerror=()=>$('#e0').textContent='Не удалось прочитать файл. Выбери картинку JPG или PNG';i.src=URL.createObjectURL(f)};
+ $('#zm').oninput=e=>{z=+e.target.value;draw()};
+ cv.onpointerdown=e=>{drag=[e.clientX,e.clientY];cv.setPointerCapture(e.pointerId)};cv.onpointerup=()=>drag=null;
+ cv.onpointermove=e=>{if(!drag)return;const k=320/cv.getBoundingClientRect().width;ox+=(e.clientX-drag[0])*k;oy+=(e.clientY-drag[1])*k;drag=[e.clientX,e.clientY];draw()};
+ $('#sv').onclick=async()=>{
+  const v=id=>$(id).value.trim(),re=/^[A-Za-zА-Яа-яЁё\- ']+$/;let ok=true;const E=(i,t)=>{$('#e'+i).textContent=t;if(t)ok=false};
+  E(0,img?'':'Загрузи фото');E(1,!v('#sn')?'Введи фамилию':!re.test(v('#sn'))?'Только буквы':'');E(2,!v('#nm')?'Введи имя':!re.test(v('#nm'))?'Только буквы':'');E(3,v('#pt')&&!re.test(v('#pt'))?'Только буквы':'');
+  const b=$('#bd').value;E(4,!b?'Укажи дату рождения':b>today0?'Дата не может быть в будущем':b<'1900-01-01'?'Слишком давняя дата':'');
+  if(!ok)return;$('#sv').disabled=true;
+  const{error}=await sb.from('profiles').upsert({id:me.id,surname:v('#sn'),name:v('#nm'),patronymic:v('#pt')||null,birthdate:b,photo:cv.toDataURL('image/jpeg',.8)});
+  $('#sv').disabled=false;if(error)return $('#e0').textContent='Не удалось сохранить: '+error.message;
+  await load();confetti();go('profile');
+ };
+}
+function profV(A){
+ if(!me)return needLogin(A);const p=people.find(x=>x.id==me.id);
+ A.innerHTML=`<h2 class="t">Мой профиль</h2><div class="box"><p>Почта: <b>${esc(me.email)}</b>${admin?' · 👑 администратор':''}</p></div>`+(p?`<div class="grid" style="grid-template-columns:repeat(3,1fr);max-width:480px">${card(p)}</div><div class="row"><button class="btn" onclick="go('add')">Изменить</button><button class="btn d" onclick="del('${p.id}')">Удалить</button></div>`:`<div class="box">У тебя пока нет карточки.<div class="row"><button class="btn" onclick="go('add')">Добавить мою карточку</button></div></div>`)+`<div class="row"><button class="btn s" onclick="out()">Выйти</button></div>`;
+}
+function calV(A){
+ const first=(new Date(calY,calM,1).getDay()+6)%7,dim=new Date(calY,calM+1,0).getDate(),t=today();
+ const map={};people.filter(p=>P(p.birthdate)[1]-1==calM).forEach(p=>(map[P(p.birthdate)[2]]??=[]).push(p));
+ let c=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<div class="h">${d}</div>`).join('')+'<div></div>'.repeat(first);
+ for(let d=1;d<=dim;d++)c+=`<div class="${map[d]?'bd':''} ${t.getTime()==new Date(calY,calM,d).getTime()?'td':''}">${d}</div>`;
+ const l=Object.keys(map).sort((a,b)=>a-b).flatMap(d=>map[d]);
+ A.innerHTML=`<div class="row" style="justify-content:space-between;align-items:center"><button class="btn s" onclick="calM--;if(calM<0){calM=11;calY--}calV($('#app'))">‹</button><h2>${MN[calM]} ${calY}</h2><button class="btn s" onclick="calM++;if(calM>11){calM=0;calY++}calV($('#app'))">›</button></div><div class="cal" style="margin-top:10px">${c}</div><h2 class="t">Дни рождения в этом месяце</h2>${l.length?`<div class="grid">${l.map(card).join('')}</div>`:'<div class="box">В этом месяце именинников нет</div>'}`;
+}
+sb.auth.onAuthStateChange(async(_,s)=>{me=s?.user||null;await load();render()});
+route=location.hash.slice(1)||'home';
+</script></body></html>
